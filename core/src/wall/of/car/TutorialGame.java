@@ -8,22 +8,29 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class TutorialGame extends ApplicationAdapter {
     ShapeRenderer shape;
     Ball ball;
+    Paddle paddle;
 
     @Override
     public void create() {
         shape = new ShapeRenderer();
-        ball = new Ball(150, 200, 70, 12, 5);
+        ball = new Ball(30, 30, 25, 5, 5);
+        paddle = new Paddle(Gdx.input.getX(), 20, 10, 100);
     }
 
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        ball.update();
         shape.begin(ShapeRenderer.ShapeType.Filled);
+        ball.update();
         ball.draw(shape);
+        paddle.update();
+        paddle.draw(shape);
         shape.end();
     }
 }

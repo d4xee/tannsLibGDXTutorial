@@ -21,15 +21,35 @@ public class Ball {
     public void update() {
         x += xSpeed;
         y += ySpeed;
-        if (x < 0 || x > Gdx.graphics.getWidth()) {
+        if (rightOrLeftCollision()) {
             xSpeed = -xSpeed;
         }
-        if (y < 0 || y > Gdx.graphics.getHeight()) {
+        if (topOrBottomCollision()) {
             ySpeed = -ySpeed;
         }
     }
 
     public void draw(ShapeRenderer shape) {
         shape.circle(x, y, size);
+    }
+
+    public boolean topOrBottomCollision() {
+        if (y + size >= Gdx.graphics.getHeight()) {
+            return true;
+        }
+        else if (y - size <= 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean rightOrLeftCollision() {
+        if (x + size >= Gdx.graphics.getWidth()) {
+            return true;
+        }
+        else if (x - size <= 0) {
+            return true;
+        }
+        return false;
     }
 }
