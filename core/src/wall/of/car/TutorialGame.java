@@ -20,7 +20,7 @@ public class TutorialGame extends ApplicationAdapter {
     @Override
     public void create() {
         shape = new ShapeRenderer();
-        ball = new Ball(Gdx.graphics.getWidth() >> 1, Gdx.graphics.getHeight() >> 1, 25, 5, 5);
+        ball = new Ball(Gdx.graphics.getWidth() >> 1, Gdx.graphics.getHeight() >> 2, 25, 5, 5);
         paddle = new Paddle(Gdx.input.getX(), 20, 10, 100);
 
         int blockWidth = 55;

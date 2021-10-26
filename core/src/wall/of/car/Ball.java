@@ -23,12 +23,7 @@ public class Ball {
     public void update() {
         x += xSpeed;
         y += ySpeed;
-        if (rightOrLeftWallCollision()) {
-            xSpeed = -xSpeed;
-        }
-        if (topOrBottomWallCollision()) {
-            ySpeed = -ySpeed;
-        }
+        checkCollision(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void draw(ShapeRenderer shape) {
@@ -57,19 +52,32 @@ public class Ball {
     }
 
     public void checkCollision(Paddle paddle) {
-        if (collidesWith(paddle.x, paddle.y, paddle.height, paddle.width)) {
-            ySpeed = -ySpeed;
-        }
+        checkCollision(paddle.x, paddle.y, paddle.width, paddle.height);
     }
 
     public void checkCollision(Block block) {
-        if (collidesWith(block.x, block.y, block.height, block.width)) {
-            ySpeed = -ySpeed;
+        checkCollision(block.x, block.y, block.width, block.height);
+        if (collidesWith(block.x, block.y, block.width, block.height) != Collision.NO_COLLISION) {
             block.destroyed = true;
         }
     }
 
-    private boolean collidesWith(int x, int y, int height, int width) {
+    private void checkCollision(int x, int y, int width, int height) {
+        if (collidesWith(x, y, width, height) == Collision.LEFT_SIDE) {
+            xSpeed = -xSpeed;
+        }
+        else if (collidesWith(x, y, width, height) == Collision.TOP_SIDE) {
+            ySpeed = -ySpeed;
+        }
+        else if (collidesWith(x, y, width, height) == Collision.RIGHT_SIDE) {
+            xSpeed = -xSpeed;
+        }
+        else if (collidesWith(x, y, width, height) == Collision.BOTTOM_SIDE) {
+            ySpeed = -ySpeed;
+        }
+    }
+
+    private int collidesWith(int x, int y, int width, int height) {
         int xCircle;
         int yCircle;
 
@@ -80,43 +88,25 @@ public class Ball {
             if (xCircle == x
                     && y <= yCircle
                     && yCircle <= y + height) {
-                return true;
+                return Collision.LEFT_SIDE;
             }
-        }
-
-        for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + this.x;
-            yCircle = (int) (size *  Math.sin(i)) + this.y;
-
-            if (yCircle == y + height
+            else if (yCircle == y + height
                     && x <= xCircle
                     && xCircle <= x + width) {
-                return true;
+                return Collision.TOP_SIDE;
             }
-        }
-
-        for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + this.x;
-            yCircle = (int) (size *  Math.sin(i)) + this.y;
-
-            if (xCircle == x + width
+            else if (xCircle == x + width
                     && y <= yCircle
                     && yCircle <= y + height) {
-                return true;
+                return Collision.RIGHT_SIDE;
             }
-        }
-
-        for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + this.x;
-            yCircle = (int) (size *  Math.sin(i)) + this.y;
-
-            if (yCircle == y
+            else if (yCircle == y
                     && x <= xCircle
                     && xCircle <= x + width) {
-                return true;
+                return Collision.BOTTOM_SIDE;
             }
         }
 
-        return false;
+        return Collision.NO_COLLISION;
     }
 }
