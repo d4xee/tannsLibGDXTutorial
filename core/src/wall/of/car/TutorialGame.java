@@ -19,7 +19,7 @@ public class TutorialGame extends ApplicationAdapter {
     @Override
     public void create() {
         shape = new ShapeRenderer();
-        ball = new Ball(30, 30, 25, 5, 5);
+        ball = new Ball(Gdx.graphics.getWidth() >> 1, Gdx.graphics.getHeight() >> 1, 25, 7, 7);
         paddle = new Paddle(Gdx.input.getX(), 20, 10, 100);
     }
 
@@ -28,6 +28,7 @@ public class TutorialGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shape.begin(ShapeRenderer.ShapeType.Filled);
         ball.update();
+        ball.checkCollision(paddle);
         ball.draw(shape);
         paddle.update();
         paddle.draw(shape);

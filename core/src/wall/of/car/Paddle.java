@@ -17,7 +17,7 @@ public class Paddle {
     }
 
     public void update() {
-        x = Gdx.input.getX();
+        x = Gdx.input.getX() - 50;
     }
 
     public void draw(ShapeRenderer shape) {
