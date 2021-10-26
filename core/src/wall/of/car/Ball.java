@@ -57,55 +57,62 @@ public class Ball {
     }
 
     public void checkCollision(Paddle paddle) {
-        if (collidesWith(paddle)) {
+        if (collidesWith(paddle.x, paddle.y, paddle.height, paddle.width)) {
             ySpeed = -ySpeed;
         }
     }
 
-    private boolean collidesWith(Paddle paddle) {
+    public void checkCollision(Block block) {
+        if (collidesWith(block.x, block.y, block.height, block.width)) {
+            ySpeed = -ySpeed;
+            block.destroyed = true;
+        }
+    }
+
+    private boolean collidesWith(int x, int y, int height, int width) {
         int xCircle;
         int yCircle;
 
         for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + x;
-            yCircle = (int) (size *  Math.sin(i)) + y;
+            xCircle = (int) (size *  Math.cos(i)) + this.x;
+            yCircle = (int) (size *  Math.sin(i)) + this.y;
 
-            if (xCircle == paddle.x
-                    && paddle.y <= yCircle
-                    && yCircle <= paddle.y + paddle.height) {
+            if (xCircle == x
+                    && y <= yCircle
+                    && yCircle <= y + height) {
                 return true;
             }
         }
 
         for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + x;
-            yCircle = (int) (size *  Math.sin(i)) + y;
+            xCircle = (int) (size *  Math.cos(i)) + this.x;
+            yCircle = (int) (size *  Math.sin(i)) + this.y;
 
-            if (yCircle == paddle.y + paddle.height
-                    && paddle.x <= xCircle
-                    && xCircle <= paddle.x + paddle.width) {
+            if (yCircle == y + height
+                    && x <= xCircle
+                    && xCircle <= x + width) {
                 return true;
             }
         }
 
         for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + x;
-            yCircle = (int) (size *  Math.sin(i)) + y;
+            xCircle = (int) (size *  Math.cos(i)) + this.x;
+            yCircle = (int) (size *  Math.sin(i)) + this.y;
 
-            if (xCircle == paddle.x + paddle.width
-                    && paddle.y <= yCircle
-                    && yCircle <= paddle.y + paddle.height) {
+            if (xCircle == x + width
+                    && y <= yCircle
+                    && yCircle <= y + height) {
                 return true;
             }
         }
 
         for (int i = 0; i < 360; i+=5) {
-            xCircle = (int) (size *  Math.cos(i)) + x;
-            yCircle = (int) (size *  Math.sin(i)) + y;
+            xCircle = (int) (size *  Math.cos(i)) + this.x;
+            yCircle = (int) (size *  Math.sin(i)) + this.y;
 
-            if (yCircle == paddle.y
-                    && paddle.x <= xCircle
-                    && xCircle <= paddle.x + paddle.width) {
+            if (yCircle == y
+                    && x <= xCircle
+                    && xCircle <= x + width) {
                 return true;
             }
         }
